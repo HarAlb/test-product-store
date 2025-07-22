@@ -1,0 +1,30 @@
+<?php
+
+namespace Modules\Auth\App\Providers;
+
+use Illuminate\Support\ServiceProvider;
+
+class AuthServiceProvider extends ServiceProvider
+{
+    protected string $moduleName = 'Auth';
+
+    protected string $moduleNameLower = 'auth';
+
+    /**
+     * Register any application services.
+     */
+    public function register(): void
+    {
+        $this->app->register(RouteServiceProvider::class);
+
+        $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/migrations'));
+    }
+
+    /**
+     * Bootstrap any application services.
+     */
+    public function boot(): void
+    {
+        //
+    }
+}
