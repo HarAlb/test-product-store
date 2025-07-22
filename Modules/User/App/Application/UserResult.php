@@ -33,7 +33,7 @@ final class UserResult implements \JsonSerializable
             id: $user->id,
             name: $user->name,
             phone: $user->phone,
-            address: $user->address,
+            address: $user->address
         );
     }
 
@@ -43,7 +43,7 @@ final class UserResult implements \JsonSerializable
             'id' => $this->id,
             'name' => $this->name,
             'phone' => $this->phone,
-            'address' => $this->address,
+            'address' => $this->address
         ];
     }
 }
