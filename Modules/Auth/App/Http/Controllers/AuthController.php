@@ -18,8 +18,7 @@ class AuthController extends Controller
     public function __construct(
         private RegisterHandler $registerHandler,
         private LoginHandler $loginHandler,
-    ) {
-    }
+    ) {}
 
     #[OAT\Post(
         path: '/auth/register',

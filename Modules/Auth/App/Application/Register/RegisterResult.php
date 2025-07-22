@@ -12,13 +12,13 @@ use OpenApi\Attributes as OAT;
     properties: [
         'user' => new OAT\Property(
             property: 'user',
-            ref: "#/components/schemas/UserResult"
+            ref: '#/components/schemas/UserResult'
         ),
         'token' => new OAT\Property(
             property: 'token',
             type: 'string',
             example: '1|8kavRLZCsGepEU80kb3jkiJv6QZjNvdT2x1GnKime49cb2b6'
-        )
+        ),
     ],
     type: 'object'
 )]
@@ -33,7 +33,7 @@ final class RegisterResult implements \JsonSerializable
     {
         return [
             'user' => UserResult::fromModel($this->user),
-            'token' => $this->token
+            'token' => $this->token,
         ];
     }
 }

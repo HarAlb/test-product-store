@@ -11,7 +11,7 @@ class RegisterTest extends TestCase
      *
      * @return void
      */
-    public function testValidationErrorWithEmpty()
+    public function test_validation_error_with_empty()
     {
         $response = $this->postJson('/api/auth/register');
 
@@ -19,7 +19,7 @@ class RegisterTest extends TestCase
 
         $response->assertJsonStructure([
             'message',
-            'errors'
+            'errors',
         ]);
     }
 
@@ -28,7 +28,7 @@ class RegisterTest extends TestCase
      *
      * @return void
      */
-    public function testSuccessRegister()
+    public function test_success_register()
     {
         $password = 'fakePass123';
 
@@ -44,7 +44,7 @@ class RegisterTest extends TestCase
 
         $this->assertDatabaseHas('users', [
             'phone' => $response->json('user.phone'),
-            'name'  => $response->json('user.name'),
+            'name' => $response->json('user.name'),
         ]);
     }
 }

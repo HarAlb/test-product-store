@@ -10,8 +10,8 @@ final class RegisterHandler
     public function handle(RegisterData $data): RegisterResult
     {
         $user = User::create([
-            'name'     => $data->name,
-            'phone'    => $data->phone,
+            'name' => $data->name,
+            'phone' => $data->phone,
             'password' => Hash::make($data->password),
             'address' => $data->address,
         ]);

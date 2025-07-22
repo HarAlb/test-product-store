@@ -12,7 +12,7 @@ final class LoginHandler
     {
         $user = User::where('phone', $data->phone)->first();
 
-        if (!$user || !Hash::check($data->password, $user->password)) {
+        if (! $user || ! Hash::check($data->password, $user->password)) {
             throw ValidationException::withMessages([
                 'phone' => ['Invalid phone or password.'],
             ]);

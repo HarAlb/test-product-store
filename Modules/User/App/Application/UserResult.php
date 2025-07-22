@@ -25,8 +25,7 @@ final class UserResult implements \JsonSerializable
         private string $name,
         private string $phone,
         private string $address,
-    ) {
-    }
+    ) {}
 
     public static function fromModel(User $user): self
     {
@@ -44,7 +43,7 @@ final class UserResult implements \JsonSerializable
             'id' => $this->id,
             'name' => $this->name,
             'phone' => $this->phone,
-            'address' => $this->address
+            'address' => $this->address,
         ];
     }
 }

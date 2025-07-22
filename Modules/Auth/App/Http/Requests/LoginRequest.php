@@ -13,7 +13,7 @@ class LoginRequest extends FormRequest
     {
         return [
             'phone' => 'required|string',
-            'password' => 'required'
+            'password' => 'required',
         ];
     }
 

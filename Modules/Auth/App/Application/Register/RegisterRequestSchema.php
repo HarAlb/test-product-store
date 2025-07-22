@@ -15,7 +15,4 @@ use OpenApi\Attributes as OAT;
         new OAT\Property(property: 'password_confirmation', type: 'string', example: 'secret123'),
     ]
 )]
-class RegisterRequestSchema
-{
-
-}
+class RegisterRequestSchema {}

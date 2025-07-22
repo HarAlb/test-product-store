@@ -2,9 +2,9 @@
 
 namespace Modules\Auth\tests\Feature;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Modules\User\App\Models\User;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LoginTest extends TestCase
 {
@@ -15,7 +15,7 @@ class LoginTest extends TestCase
      *
      * @return void
      */
-    public function testLoginSuccess()
+    public function test_login_success()
     {
         $user = User::factory()->create([
             'password' => bcrypt($password = 'Secret123!'),
@@ -38,18 +38,18 @@ class LoginTest extends TestCase
      *
      * @return void
      */
-    public function testLoginFailWithEmptyData()
+    public function test_login_fail_with_empty_data()
     {
         $response = $this->postJson('/api/auth/login');
 
         $response->assertStatus(422)
             ->assertJsonValidationErrors([
                 'phone',
-                'password'
+                'password',
             ]);
     }
 
-    public function testLoginFailWithEmptyPassword()
+    public function test_login_fail_with_empty_password()
     {
         $response = $this->postJson('/api/auth/login', [
             'phone' => fake()->numerify(str_repeat('#', 16)),
@@ -61,7 +61,7 @@ class LoginTest extends TestCase
             ]);
     }
 
-    public function testLoginFailWithWrongPassword()
+    public function test_login_fail_with_wrong_password()
     {
         $user = User::factory()->create([
             'password' => bcrypt('Secret123!'),
@@ -75,7 +75,7 @@ class LoginTest extends TestCase
         $response->assertStatus(422)
             ->assertJsonValidationErrors([
                 'phone' => [
-                    'Invalid phone or password.'
+                    'Invalid phone or password.',
                 ],
             ]);
     }

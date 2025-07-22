@@ -12,7 +12,4 @@ use OpenApi\Attributes as OAT;
         new OAT\Property(property: 'password', type: 'string', example: 'secret123'),
     ]
 )]
-class LoginRequestSchema
-{
-
-}
+class LoginRequestSchema {}
