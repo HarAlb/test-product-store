@@ -1,0 +1,262 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Test Product Order Documentation",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://test-pro.test/api",
+            "description": "API Server"
+        }
+    ],
+    "paths": {
+        "/auth/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "регистрация (телефон, имя, адрес)",
+                "operationId": "register",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterRequestSchema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success Register",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RegisterResult"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "авторизация",
+                "operationId": "login",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequestSchema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success Register",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResult"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/me": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Получаем информацию авторизованного пользователя",
+                "operationId": "getAuthUser",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResult"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "LoginRequestSchema": {
+                "required": [
+                    "phone",
+                    "password"
+                ],
+                "properties": {
+                    "phone": {
+                        "type": "string",
+                        "example": "79991234567"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "secret123"
+                    }
+                },
+                "type": "object"
+            },
+            "LoginResult": {
+                "title": "User after register response",
+                "properties": {
+                    "user": {
+                        "$ref": "#/components/schemas/UserResult"
+                    },
+                    "token": {
+                        "type": "string",
+                        "example": "1|8kavRLZCsGepEU80kb3jkiJv6QZjNvdT2x1GnKime49cb2b6"
+                    }
+                },
+                "type": "object"
+            },
+            "RegisterRequestSchema": {
+                "required": [
+                    "name",
+                    "address",
+                    "phone",
+                    "password"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Иван Иванов"
+                    },
+                    "address": {
+                        "type": "string",
+                        "example": "г. Москва, ул. Ленина, д. 1"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "example": "79991234567"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "secret123"
+                    },
+                    "password_confirmation": {
+                        "type": "string",
+                        "example": "secret123"
+                    }
+                },
+                "type": "object"
+            },
+            "RegisterResult": {
+                "title": "User after register response",
+                "properties": {
+                    "user": {
+                        "$ref": "#/components/schemas/UserResult"
+                    },
+                    "token": {
+                        "type": "string",
+                        "example": "1|8kavRLZCsGepEU80kb3jkiJv6QZjNvdT2x1GnKime49cb2b6"
+                    }
+                },
+                "type": "object"
+            },
+            "UserResult": {
+                "title": "User response",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 123
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Иван Иванов"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "example": "79991234567"
+                    },
+                    "address": {
+                        "type": "string",
+                        "example": "г. Москва, ул. Ленина, д. 1"
+                    }
+                },
+                "type": "object"
+            },
+            "ValidationResponse": {
+                "title": "Validation error",
+                "properties": {
+                    "message": {
+                        "title": "message",
+                        "type": "string",
+                        "example": "Error"
+                    },
+                    "errors": {
+                        "properties": {
+                            "email": {
+                                "description": "Сумма зарплаты за месяц",
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Auth"
+        }
+    ]
+}
