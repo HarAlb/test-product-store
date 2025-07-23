@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Auth\App\Providers;
+namespace Modules\Product\App\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
@@ -10,7 +10,7 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * The module namespace to assume when generating URLs to actions.
      */
-    protected string $moduleNamespace = 'Modules\Auth\App\Http\Controllers';
+    protected string $moduleNamespace = 'Modules\Product\App\Http\Controllers';
 
     /**
      * Called before routes are registered.
@@ -37,9 +37,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes(): void
     {
-        Route::prefix('api/auth')
+        Route::prefix('api/products')
             ->middleware('api')
             ->namespace($this->moduleNamespace)
-            ->group(module_path('Auth', '/routes/api.php'));
+            ->group(module_path('Product', '/routes/api.php'));
     }
 }
