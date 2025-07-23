@@ -11,7 +11,7 @@ class UserRepository implements UserRepositoryInterface
 {
     public function create(UserEntity $userEntity): UserResult
     {
-        $model = new User();
+        $model = new User;
         $model->name = $userEntity->name;
         $model->phone = $userEntity->phone;
         $model->password = $userEntity->password;
@@ -31,7 +31,7 @@ class UserRepository implements UserRepositoryInterface
     {
         $model = User::where('phone', $phone)->first();
 
-        if (!$model) {
+        if (! $model) {
             return null;
         }
 

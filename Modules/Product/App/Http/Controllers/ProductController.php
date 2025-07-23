@@ -4,10 +4,6 @@ namespace Modules\Product\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use Modules\Auth\App\Application\Login\LoginHandler;
-use Modules\Auth\App\Application\Register\RegisterData;
-use Modules\Auth\App\Application\Register\RegisterHandler;
-use Modules\Auth\App\Http\Requests\RegisterRequest;
 use OpenApi\Attributes as OAT;
 
 class ProductController extends Controller
@@ -36,7 +32,6 @@ class ProductController extends Controller
     )]
     public function register(): JsonResponse
     {
-
 
         return new JsonResponse([], 201);
     }

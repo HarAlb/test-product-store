@@ -5,8 +5,11 @@ namespace Modules\User\App\Application;
 final class UserEntity
 {
     public string $name;
+
     public string $phone;
+
     public string $password;
+
     public string $address;
 
     public function __construct(string $name, string $phone, string $password, string $address)
@@ -22,4 +25,3 @@ final class UserEntity
         return new self(...$data);
     }
 }
-

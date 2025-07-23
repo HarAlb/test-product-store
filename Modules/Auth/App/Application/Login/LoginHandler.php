@@ -6,20 +6,17 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Modules\Auth\App\Contracts\AuthTokenServiceInterface;
 use Modules\User\App\Contracts\UserRepositoryInterface;
-use Modules\User\App\Models\User;
 
 final class LoginHandler
 {
     public function __construct(
         private UserRepositoryInterface $repository,
         private AuthTokenServiceInterface $authTokenService
-    )
-    {
-    }
+    ) {}
 
     public function handle(LoginData $data): LoginResult
     {
-        $userResult = $this->repository->findByPhone($data->phone);;
+        $userResult = $this->repository->findByPhone($data->phone);
 
         if (! $userResult || ! Hash::check($data->password, $userResult->getPassword())) {
             throw ValidationException::withMessages([

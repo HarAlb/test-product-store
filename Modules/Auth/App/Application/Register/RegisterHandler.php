@@ -11,9 +11,7 @@ final class RegisterHandler
     public function __construct(
         private UserRepositoryInterface $repository,
         private AuthTokenServiceInterface $authTokenService
-    )
-    {
-    }
+    ) {}
 
     public function handle(RegisterData $data): RegisterResult
     {

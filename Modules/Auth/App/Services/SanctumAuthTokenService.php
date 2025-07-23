@@ -10,6 +10,7 @@ class SanctumAuthTokenService implements AuthTokenServiceInterface
     public function createTokenById(int $userId): string
     {
         $user = User::findOrFail($userId);
+
         return $user->createToken('api')->plainTextToken;
     }
 }
