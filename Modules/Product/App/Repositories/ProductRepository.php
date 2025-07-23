@@ -37,4 +37,9 @@ class ProductRepository implements ProductRepositoryInterface
 
         return $query->count();
     }
+
+    public function getByIds(array $ids): Collection
+    {
+        return Product::whereIn('id', $ids)->get()->map(fn ($model) => ProductResult::fromModel($model));
+    }
 }

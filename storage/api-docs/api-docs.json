@@ -170,6 +170,85 @@
                 }
             }
         },
+        "/orders": {
+            "get": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Получаем список заказов",
+                "operationId": "getOrders",
+                "responses": {
+                    "200": {
+                        "description": "Paginated list of products",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaginatedList"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Создаём заказ",
+                "operationId": "storeOrder",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OrderStoreRequestSchema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Categories list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/OrderResult"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/products": {
             "get": {
                 "tags": [
@@ -340,6 +419,97 @@
                 },
                 "type": "object"
             },
+            "OrderResult": {
+                "title": "Order response",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1001
+                    },
+                    "total_price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 1299.99
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-07-23T10:15:30Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-07-23T12:00:00Z"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/UserResult"
+                    },
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OrderItemResult"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "OrderStoreRequestSchema": {
+                "required": [
+                    "items"
+                ],
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "required": [
+                                "product_id",
+                                "quantity"
+                            ],
+                            "properties": {
+                                "product_id": {
+                                    "type": "integer",
+                                    "example": 123
+                                },
+                                "quantity": {
+                                    "type": "number",
+                                    "format": "float",
+                                    "example": 1.5
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "minItems": 1
+                    }
+                },
+                "type": "object"
+            },
+            "OrderItemResult": {
+                "title": "Order Item response",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "quantity": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 349.51
+                    },
+                    "discount": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 100
+                    },
+                    "product": {
+                        "$ref": "#/components/schemas/ProductResult"
+                    }
+                },
+                "type": "object"
+            },
             "ProductResult": {
                 "title": "Product response",
                 "properties": {
@@ -388,6 +558,9 @@
                             "oneOf": [
                                 {
                                     "$ref": "#/components/schemas/ProductResult"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/OrderResult"
                                 }
                             ]
                         }
@@ -484,6 +657,10 @@
         {
             "name": "Currency",
             "description": "Currency"
+        },
+        {
+            "name": "Orders",
+            "description": "Orders"
         },
         {
             "name": "Products",

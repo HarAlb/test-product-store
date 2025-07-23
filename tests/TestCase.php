@@ -15,4 +15,11 @@ abstract class TestCase extends BaseTestCase
     {
         return Sanctum::actingAs($authenticatable, ['*'], 'api');
     }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed();
+    }
 }

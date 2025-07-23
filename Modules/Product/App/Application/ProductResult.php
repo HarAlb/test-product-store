@@ -70,4 +70,14 @@ final class ProductResult implements \JsonSerializable
             'category' => $this->category,
         ];
     }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getPrice(): float
+    {
+        return $this->price;
+    }
 }

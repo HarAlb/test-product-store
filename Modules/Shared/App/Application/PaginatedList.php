@@ -14,6 +14,7 @@ use OpenApi\Attributes as OAT;
             items: new OAT\Items(
                 oneOf: [
                     new OAT\Schema(ref: '#/components/schemas/ProductResult'),
+                    new OAT\Schema(ref: '#/components/schemas/OrderResult'),
                 ]
             )
         ),

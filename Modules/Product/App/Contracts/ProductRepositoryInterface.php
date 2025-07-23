@@ -10,4 +10,6 @@ interface ProductRepositoryInterface
     public function paginate(int $page, int $perPage, ?ProductFilter $filter = null): Collection;
 
     public function countAll(?ProductFilter $filter = null): int;
+
+    public function getByIds(array $ids): Collection;
 }
