@@ -25,6 +25,7 @@ final class UserResult implements \JsonSerializable
         private string $name,
         private string $phone,
         private string $address,
+        private string $password,
     ) {}
 
     public static function fromModel(User $user): self
@@ -33,7 +34,8 @@ final class UserResult implements \JsonSerializable
             id: $user->id,
             name: $user->name,
             phone: $user->phone,
-            address: $user->address
+            address: $user->address,
+            password: $user->password,
         );
     }
 
@@ -43,7 +45,57 @@ final class UserResult implements \JsonSerializable
             'id' => $this->id,
             'name' => $this->name,
             'phone' => $this->phone,
-            'address' => $this->address
+            'address' => $this->address,
         ];
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function getPhone(): string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): void
+    {
+        $this->phone = $phone;
+    }
+
+    public function getAddress(): string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(string $address): void
+    {
+        $this->address = $address;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
     }
 }

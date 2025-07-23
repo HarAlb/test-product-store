@@ -4,22 +4,26 @@ namespace Modules\Auth\App\Application\Login;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use Modules\User\App\Models\User;
+use Modules\Auth\App\Contracts\AuthTokenServiceInterface;
+use Modules\User\App\Contracts\UserRepositoryInterface;
 
 final class LoginHandler
 {
+    public function __construct(
+        private UserRepositoryInterface $repository,
+        private AuthTokenServiceInterface $authTokenService
+    ) {}
+
     public function handle(LoginData $data): LoginResult
     {
-        $user = User::where('phone', $data->phone)->first();
+        $userResult = $this->repository->findByPhone($data->phone);
 
-        if (! $user || ! Hash::check($data->password, $user->password)) {
+        if (! $userResult || ! Hash::check($data->password, $userResult->getPassword())) {
             throw ValidationException::withMessages([
                 'phone' => ['Invalid phone or password.'],
             ]);
         }
 
-        $token = $user->createToken('api')->plainTextToken;
-
-        return new LoginResult($user, $token);
+        return new LoginResult($userResult, $this->authTokenService->createTokenById($userResult->getId()));
     }
 }

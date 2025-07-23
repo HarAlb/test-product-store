@@ -3,6 +3,8 @@
 namespace Modules\Auth\App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Modules\Auth\App\Contracts\AuthTokenServiceInterface;
+use Modules\Auth\App\Services\SanctumAuthTokenService;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -15,6 +17,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->bind(AuthTokenServiceInterface::class, SanctumAuthTokenService::class);
+
         $this->app->register(RouteServiceProvider::class);
 
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/migrations'));

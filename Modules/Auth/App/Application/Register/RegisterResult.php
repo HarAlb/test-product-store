@@ -3,7 +3,6 @@
 namespace Modules\Auth\App\Application\Register;
 
 use Modules\User\App\Application\UserResult;
-use Modules\User\App\Models\User;
 use OpenApi\Attributes as OAT;
 
 #[OAT\Schema(
@@ -25,14 +24,14 @@ use OpenApi\Attributes as OAT;
 final class RegisterResult implements \JsonSerializable
 {
     public function __construct(
-        public readonly User $user,
+        public readonly UserResult $user,
         public readonly string $token,
     ) {}
 
     public function jsonSerialize(): mixed
     {
         return [
-            'user' => UserResult::fromModel($this->user),
+            'user' => $this->user,
             'token' => $this->token,
         ];
     }

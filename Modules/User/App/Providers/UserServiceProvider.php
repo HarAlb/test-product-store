@@ -3,6 +3,8 @@
 namespace Modules\User\App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Modules\User\App\Contracts\UserRepositoryInterface;
+use Modules\User\App\Repositories\UserRepository;
 
 class UserServiceProvider extends ServiceProvider
 {
@@ -15,6 +17,8 @@ class UserServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/migrations'));
     }
 
