@@ -1,0 +1,12 @@
+{
+    "Auth": true,
+    "User": true,
+    "Product": true,
+    "Curreny": true,
+    "Currency": true,
+    "Category": true,
+    "Some": true,
+    "Order": true,
+    "OrderItem": true,
+    "SomeItem": true
+}

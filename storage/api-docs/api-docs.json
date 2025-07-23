@@ -1,0 +1,670 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Test Product Order Documentation",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://test-pro.test/api",
+            "description": "API Server"
+        }
+    ],
+    "paths": {
+        "/auth/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "регистрация (телефон, имя, адрес)",
+                "operationId": "register",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterRequestSchema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success Register",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RegisterResult"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "авторизация",
+                "operationId": "login",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequestSchema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success Register",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResult"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/me": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Получаем информацию авторизованного пользователя",
+                "operationId": "getAuthUser",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResult"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/categories": {
+            "get": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Получаем список категориев",
+                "operationId": "getCategories",
+                "responses": {
+                    "201": {
+                        "description": "Categories list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CategoryResult"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/currencies": {
+            "get": {
+                "tags": [
+                    "Currency"
+                ],
+                "summary": "Получаем список доступных валют",
+                "operationId": "getCurrencies",
+                "responses": {
+                    "201": {
+                        "description": "Currency list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CurrencyResult"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/orders": {
+            "get": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Получаем список заказов",
+                "operationId": "getOrders",
+                "responses": {
+                    "200": {
+                        "description": "Paginated list of products",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaginatedList"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Создаём заказ",
+                "operationId": "storeOrder",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OrderStoreRequestSchema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Categories list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/OrderResult"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "получить список всех товаров",
+                "operationId": "getProducts",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "Items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Filter by resource name and description",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Paginated list of products",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaginatedList"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "LoginRequestSchema": {
+                "required": [
+                    "phone",
+                    "password"
+                ],
+                "properties": {
+                    "phone": {
+                        "type": "string",
+                        "example": "79991234567"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "secret123"
+                    }
+                },
+                "type": "object"
+            },
+            "LoginResult": {
+                "title": "User after register response",
+                "properties": {
+                    "user": {
+                        "$ref": "#/components/schemas/UserResult"
+                    },
+                    "token": {
+                        "type": "string",
+                        "example": "1|8kavRLZCsGepEU80kb3jkiJv6QZjNvdT2x1GnKime49cb2b6"
+                    }
+                },
+                "type": "object"
+            },
+            "RegisterRequestSchema": {
+                "required": [
+                    "name",
+                    "address",
+                    "phone",
+                    "password"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Иван Иванов"
+                    },
+                    "address": {
+                        "type": "string",
+                        "example": "г. Москва, ул. Ленина, д. 1"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "example": "79991234567"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "secret123"
+                    },
+                    "password_confirmation": {
+                        "type": "string",
+                        "example": "secret123"
+                    }
+                },
+                "type": "object"
+            },
+            "RegisterResult": {
+                "title": "User after register response",
+                "properties": {
+                    "user": {
+                        "$ref": "#/components/schemas/UserResult"
+                    },
+                    "token": {
+                        "type": "string",
+                        "example": "1|8kavRLZCsGepEU80kb3jkiJv6QZjNvdT2x1GnKime49cb2b6"
+                    }
+                },
+                "type": "object"
+            },
+            "CategoryResult": {
+                "title": "Category response",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 123
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Some"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "some"
+                    }
+                },
+                "type": "object"
+            },
+            "CurrencyResult": {
+                "title": "Currency response",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 123
+                    },
+                    "code": {
+                        "type": "string",
+                        "example": "USD"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "US Dollar"
+                    },
+                    "symbol": {
+                        "type": "string",
+                        "example": "$"
+                    }
+                },
+                "type": "object"
+            },
+            "OrderResult": {
+                "title": "Order response",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1001
+                    },
+                    "total_price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 1299.99
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-07-23T10:15:30Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-07-23T12:00:00Z"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/UserResult"
+                    },
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OrderItemResult"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "OrderStoreRequestSchema": {
+                "required": [
+                    "items"
+                ],
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "required": [
+                                "product_id",
+                                "quantity"
+                            ],
+                            "properties": {
+                                "product_id": {
+                                    "type": "integer",
+                                    "example": 123
+                                },
+                                "quantity": {
+                                    "type": "number",
+                                    "format": "float",
+                                    "example": 1.5
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "minItems": 1
+                    }
+                },
+                "type": "object"
+            },
+            "OrderItemResult": {
+                "title": "Order Item response",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "quantity": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 349.51
+                    },
+                    "discount": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 100
+                    },
+                    "product": {
+                        "$ref": "#/components/schemas/ProductResult"
+                    }
+                },
+                "type": "object"
+            },
+            "ProductResult": {
+                "title": "Product response",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1001
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "iPhone 15"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Apple iPhone 15 with 256GB storage"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 1299.99
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-07-23T10:15:30Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-07-23T12:00:00Z"
+                    },
+                    "currency": {
+                        "$ref": "#/components/schemas/CurrencyResult"
+                    },
+                    "category": {
+                        "$ref": "#/components/schemas/CategoryResult"
+                    }
+                },
+                "type": "object"
+            },
+            "PaginatedList": {
+                "title": "Paginated List",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "oneOf": [
+                                {
+                                    "$ref": "#/components/schemas/ProductResult"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/OrderResult"
+                                }
+                            ]
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/PaginationMeta"
+                    }
+                },
+                "type": "object"
+            },
+            "PaginationMeta": {
+                "properties": {
+                    "page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "total": {
+                        "type": "integer",
+                        "example": 100
+                    },
+                    "total_pages": {
+                        "type": "integer",
+                        "example": 10
+                    }
+                },
+                "type": "object"
+            },
+            "UserResult": {
+                "title": "User response",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 123
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Иван Иванов"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "example": "79991234567"
+                    },
+                    "address": {
+                        "type": "string",
+                        "example": "г. Москва, ул. Ленина, д. 1"
+                    }
+                },
+                "type": "object"
+            },
+            "ValidationResponse": {
+                "title": "Validation error",
+                "properties": {
+                    "message": {
+                        "title": "message",
+                        "type": "string",
+                        "example": "Error"
+                    },
+                    "errors": {
+                        "properties": {
+                            "email": {
+                                "description": "Сумма зарплаты за месяц",
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Auth"
+        },
+        {
+            "name": "Category",
+            "description": "Category"
+        },
+        {
+            "name": "Currency",
+            "description": "Currency"
+        },
+        {
+            "name": "Orders",
+            "description": "Orders"
+        },
+        {
+            "name": "Products",
+            "description": "Products"
+        }
+    ]
+}
